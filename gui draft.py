@@ -1,3 +1,4 @@
+import os
 from tkinter import *
 from tkinter import filedialog
 from tkinter import ttk
@@ -10,35 +11,32 @@ tess.pytesseract.tesseract_cmd = \
 r'C:\Users\MY PC\AppData\Local\Programs\Tesseract-OCR\tesseract.exe'
 
 main_window = Tk()
-main_window.geometry("350x398")
+main_window.geometry("345x445")
 notebook = ttk.Notebook(main_window)
-Window_title = "Image Extractor and Text Compiler"
+Window_title = "Crop The Necessary Part"
 main_window.title(Window_title)
 
 #Tabs
 tab1 = Frame(notebook)
-tab2 = Frame(notebook,bg="#0191c8")
-tab3 = Frame(notebook,bg="#0191c8")
+tab2 = Frame(notebook)
+tab3 = Frame(notebook)
 notebook.add(tab1, text="Extraction")
 notebook.add(tab2, text="Search")
 notebook.add(tab3, text="Text File")
 notebook.grid()
 
-# BG for tab1
-tab1_BG = Image.open('may.png')
-render = ImageTk.PhotoImage(tab1_BG)
-img09 = Label(tab1 , image= render)
-img09.place(x = -2,y = -2)
+#image of project
+img = ImageTk.PhotoImage(Image.open("Untitled.png"))
+panel1 = Label(tab1, image = img)
+panel1.grid(row = 5 ,column = 0)
 
 #labels
-# select the file(guidlines)
-Label(tab1, text = "Select the file: ", fg = "white" \
-    ,bg="#0191c8").grid(row = 1, column = 0)
+# select the file
+Label(tab1, text = "Select the file: ").grid(row = 1, column = 0)
 Label(tab1, text = "jpeg,jpg,png only accepted",\
-     fg="white" ,bg="#0191c8").grid(row = 2, column = 0)
+     fg="red").grid(row = 2, column = 0)
 Label(tab1, text = "This program make the user\
-choose the image to crop",\
-fg="white" ,bg="#0191c8").grid(row = 3, column = 0)
+choose the image to crop", fg="blue").grid(row = 3, column = 0)
 
 #image input
 # tell the user to only select the jpeg or png file
@@ -85,10 +83,8 @@ def openFile():
     filedata = filedata.replace('XI A2','11A2')
     filedata = filedata.replace('11 AZ','11A2')
     filedata = filedata.replace('X A2','11A2')
-    filedata = filedata.replace('11thA2','11A2')
-    filedata = filedata.replace('11A 2','11A2')
     filedata = filedata.replace('114 2','11A2')
-    filedata = filedata.replace('X A2','11A2')
+    filedata = filedata.replace('11A 2','11A2')
     filedata = filedata.replace('X\ A2','11A2')
     filedata = filedata.replace('(me)',' ')
     filedata = filedata.replace('(Host)',' ')
@@ -98,16 +94,15 @@ def openFile():
         file.write(filedata.lower())
     cv2.waitKey(0)
     cv2.destroyAllWindows()
-
 # Read image
 button =Button(tab1,text = "Open" , command = openFile)
-button.grid(row = 10, column = 10 ,pady= 100, padx= 10)
+button.grid(row = 10, column = 10)# try to change the numbers in windows
 
 ##shaarav
 #Seach tab 
 fopener = open("Demo.txt" , 'r')
 Label(tab2, text = " Enter full roll\
- no ",fg = "white",bg="#0191c8" ).grid(row = 0, column = 1)
+ no ").grid(row = 0, column = 1)
 
 #text input
 Input_text = StringVar()
@@ -119,20 +114,16 @@ def Apply():
     roll = Input_text.get()
     for line in fopener :
         if line.startswith(roll) == True:
-            Label(tab2, text = line ,fg = "white"\
-            ,bg="#0191c8").grid(row = 22, column = 2)
+            Label(tab2, text = line).grid(row = 22, column = 2)
             Label(tab2, text = "This student was\
- present",fg = "white",\
-            bg="#0191c8").grid(row = 23, column = 2)
+ present").grid(row = 23, column = 2)
             Label(tab2, text = "Thank\
- you", fg = "white"\
-            ,bg="#0191c8").grid(row = 24, column = 2)
+ you").grid(row = 24, column = 2)
             break
         END
     else:
         Label(tab2, text = "Student was\
- absent or you enter wrong input",fg = "white"\
-        ,bg="#0191c8").grid(row = 25, column = 2)
+absent or you enter wrong input").grid(row = 25, column = 2)
 
 Button(tab2, text="Apply",\
 command = Apply).grid(row = 10,column =2)
@@ -140,8 +131,7 @@ command = Apply).grid(row = 10,column =2)
 #text output on text file tab
 txtarea = Text(tab3, width=40, height=20)
 Label(tab3 , text= 'Scroll to see the complete \
-paticipants list:',fg = "white",\
-bg="#0191c8").grid(row = 0, column = 0)
+paticipants list: ').grid(row = 0, column = 0)
 txtarea.grid()
 
 # show the output
@@ -152,10 +142,9 @@ def out_put():
     opened_file.close()
 out_put()
 
-# To refresh the entire program
 def refresh():
     main_window.destroy()
-    os.popen("Project.py")
+    os.popen("gui draft.py")
 Button(main_window, text="refresh", command = refresh\
  , width= 20, height= 0).grid(row = 1,column =0)
 
